@@ -33,10 +33,60 @@
 
 **Weeks 1–2:**
 
--   Discuss end-to-end multi-region design, hub-and-spoke network.
--   Draw diagrams; choose CIDR plans.
--   Initialize GitHub repo structure (`.github/`, `terraform/`, `k8s-manifests/`, `operators/`).
--   Setup local dev environment with KIND/EKS.
+**Week 1 – Architecture Planning & Repo Setup** (Days 1–5, \~10 hrs)
+
+1. **Day 1: Project Kickoff & Requirements Review**
+
+    - Revisit project objectives and success criteria.
+    - Identify core components (VPC, EKS, Observability, IAM).
+    - Set up GitHub Issue templates for tasks and bugs.
+    - Create initial GitHub project board (Kanban) for Week 1.
+
+2. **Day 2: High-Level Design & CIDR Planning**
+
+    - Sketch multi-region hub-and-spoke network on paper or draw\.io.
+    - Choose CIDR ranges for two AWS regions (e.g., us-east-1: 10.0.0.0/16, us-west-2: 10.1.0.0/16, TGW VPC: 10.2.0.0/16).
+    - Define subnets (public/private) per AZ (5 AZs total: 3 AZs us-east-1, 2 AZs us-west-2).
+    - Save diagram to `docs/architecture/`.
+
+3. **Day 3: GitHub Repository & GitOps Skeleton**
+
+    - Initialize repo with structure:
+
+        ```
+        ├── .github/
+        │   ├── workflows/
+        │   ├── ISSUE_TEMPLATE/
+        ├── terraform/
+        │   └── modules/
+        ├── k8s-manifests/
+        ├── operators/
+        └── docs/
+        ```
+
+    - Add README.md, CONTRIBUTING.md, LICENSE.
+    - Configure branch protection for `main` (require PR reviews, status checks).
+
+4. **Day 4: Local Dev Environment Setup**
+
+    - Install and configure Docker Desktop / KIND in WSL Ubuntu.
+    - Create a KIND cluster manifest mirroring target EKS network layout (2 AZs).
+    - Write scripts (`scripts/kind.sh`) to create/delete cluster.
+    - Verify `kubectl get nodes` and connectivity.
+
+5. **Day 5: AWS Account Prep & IAM Roles**
+
+    - Set up a dedicated AWS sandbox account or use AWS Organizations.
+    - Create IAM user/role with least-privilege for Terraform (VPC, EKS, IAM, TGW).
+    - Configure AWS CLI profiles (`dev` and `shared-services`).
+    - Test `aws sts get-caller-identity` and minimal Terraform plan.
+
+> _Checkpoint for Week 1 (end of Day 5)_:
+>
+> -   Completed network diagram and CIDR plan under `docs/architecture/`.
+> -   GitHub repo initialized with proper structure and protections.
+> -   Local KIND cluster up and running via script.
+> -   AWS CLI & IAM roles configured; Terraform init works.
 
 **Weeks 3–4:**
 
@@ -61,3 +111,5 @@
 -   **Communication**: GitHub Discussions, Slack (optional).
 
 ---
+
+We'll iterate this plan and flesh out each week's tasks in detail as we go.
